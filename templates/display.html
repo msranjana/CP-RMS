@@ -5,19 +5,52 @@
   <title>Hospital Smart Display</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f4; }
-    h1 { color: #333; }
     .section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 8px #ccc; }
     .alert { color: red; font-weight: bold; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { border: 1px solid #ddd; padding: 8px; }
     th { background: #333; color: white; }
+    header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* Adjust height as needed */
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #ccc;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        /* Center the specific header */
+        .centered-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* Adjust height as needed */
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #ccc;
+            margin: 0;
+        }
+
+        .centered-header h1 {
+            font-size: 34px; /* Font size for "SwasthaSeve" */
+            font-weight: bold;
+            color: #333;
+        }
+       
   </style>
 </head>
 <body>
-<button onclick="enableSound()" id="soundBtn">🔊 Enable Alerts</button>
+<div class="centered-header">
+        <h1>SwasthaSeve - Centralized Patient & Resource Management System</h1>
+    </div>
 
 <div class="section" id="alertSection">
-    <h1>📢 Emergency Alerts</h1>
+    <h1>📢 Emergency Alerts  <button onclick="enableSound()" id="soundBtn">🔊 Enable Alerts</button></h1>
     {% for alert in alerts %}
       <p class="alert">[{{ alert.alert_type }}] - {{ alert.message }} ({{ alert.timestamp }})</p>
     {% else %}

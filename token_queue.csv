@@ -1,51 +1,52 @@
 token_id,dept_id,patient_name,status,timestamp
-392,D002,D. Shetty,Waiting,2025-06-14 13:04:33
-313,D004,D. Shetty,In Progress,2025-06-14 13:04:33
-940,D004,A. Kumar,Waiting,2025-06-14 13:05:33
-170,D004,E. Nair,In Progress,2025-06-14 13:05:33
-445,D002,E. Nair,Waiting,2025-06-14 13:06:33
-380,D002,D. Shetty,In Progress,2025-06-14 13:06:33
-742,D002,D. Shetty,Waiting,2025-06-14 13:07:33
-708,D001,B. Reddy,Called,2025-06-14 13:07:33
-964,D002,E. Nair,Called,2025-06-14 13:08:33
-454,D002,B. Reddy,In Progress,2025-06-14 13:08:33
-450,D003,A. Kumar,Waiting,2025-06-14 13:08:33
-205,D003,F. Rao,In Progress,2025-06-14 13:08:33
-215,D003,B. Reddy,In Progress,2025-06-14 13:09:33
-893,D004,B. Reddy,In Progress,2025-06-14 13:09:33
-720,D004,C. Fernandes,Waiting,2025-06-14 13:09:33
-496,D004,A. Kumar,Called,2025-06-14 13:11:33
-743,D002,B. Reddy,In Progress,2025-06-14 13:11:33
-855,D004,D. Shetty,Waiting,2025-06-14 13:11:33
-959,D001,A. Kumar,Called,2025-06-14 13:12:33
-637,D002,E. Nair,In Progress,2025-06-14 13:12:33
-534,D002,F. Rao,In Progress,2025-06-14 13:12:33
-143,D001,E. Nair,In Progress,2025-06-14 13:13:33
-495,D002,A. Kumar,In Progress,2025-06-14 13:14:33
-961,D002,D. Shetty,Called,2025-06-14 13:15:33
-266,D002,E. Nair,Waiting,2025-06-14 13:15:33
-552,D004,C. Fernandes,Waiting,2025-06-14 13:15:33
-747,D004,F. Rao,Waiting,2025-06-14 13:15:33
-853,D004,A. Kumar,Waiting,2025-06-14 13:15:33
-121,D003,A. Kumar,In Progress,2025-06-14 13:16:33
-450,D001,B. Reddy,Called,2025-06-14 13:16:33
-575,D002,D. Shetty,In Progress,2025-06-14 13:16:33
-553,D004,D. Shetty,In Progress,2025-06-14 13:16:33
-534,D001,B. Reddy,In Progress,2025-06-14 13:17:33
-822,D004,D. Shetty,Called,2025-06-14 13:17:33
-643,D003,B. Reddy,Waiting,2025-06-14 13:17:33
-950,D002,C. Fernandes,Waiting,2025-06-14 13:18:33
-838,D002,D. Shetty,Waiting,2025-06-14 13:18:33
-623,D001,C. Fernandes,Waiting,2025-06-14 13:18:33
-452,D004,B. Reddy,In Progress,2025-06-14 13:19:33
-785,D003,A. Kumar,In Progress,2025-06-14 13:19:33
-941,D003,C. Fernandes,Called,2025-06-14 13:20:33
-289,D002,E. Nair,Called,2025-06-14 13:21:33
-127,D001,E. Nair,Waiting,2025-06-14 13:21:33
-145,D001,D. Shetty,Waiting,2025-06-14 13:21:33
-285,D004,D. Shetty,Waiting,2025-06-14 13:21:33
-145,D004,E. Nair,Called,2025-06-14 13:21:33
-344,D001,B. Reddy,Called,2025-06-14 13:22:33
-520,D004,C. Fernandes,In Progress,2025-06-14 13:23:33
-591,D003,B. Reddy,In Progress,2025-06-14 13:23:33
-933,D003,E. Nair,In Progress,2025-06-14 13:23:33
+835,D001,C. Fernandes,Called,2025-06-14 23:42:38
+247,D004,F. Rao,In Progress,2025-06-14 23:42:38
+104,D001,A. Kumar,Waiting,2025-06-14 23:43:38
+212,D003,D. Shetty,Waiting,2025-06-14 23:44:38
+147,D003,B. Reddy,In Progress,2025-06-14 23:44:38
+596,D001,B. Reddy,Called,2025-06-14 23:44:38
+225,D004,B. Reddy,Called,2025-06-14 23:46:38
+682,D004,B. Reddy,Waiting,2025-06-14 23:46:38
+803,D001,F. Rao,In Progress,2025-06-14 23:46:38
+401,D004,C. Fernandes,Called,2025-06-14 23:47:38
+617,D004,D. Shetty,Called,2025-06-14 23:47:38
+844,D001,A. Kumar,In Progress,2025-06-14 23:47:38
+100,D001,D. Shetty,Called,2025-06-14 23:47:38
+268,D001,E. Nair,Waiting,2025-06-14 23:48:38
+241,D001,C. Fernandes,In Progress,2025-06-14 23:48:38
+903,D001,D. Shetty,Waiting,2025-06-14 23:49:38
+451,D001,E. Nair,Called,2025-06-14 23:49:38
+172,D001,F. Rao,Called,2025-06-14 23:49:38
+648,D003,E. Nair,Called,2025-06-14 23:49:38
+420,D003,F. Rao,Waiting,2025-06-14 23:50:38
+582,D004,B. Reddy,In Progress,2025-06-14 23:50:38
+301,D002,D. Shetty,Waiting,2025-06-14 23:50:38
+388,D002,C. Fernandes,Waiting,2025-06-14 23:50:38
+507,D003,F. Rao,Waiting,2025-06-14 23:50:38
+717,D002,B. Reddy,Called,2025-06-14 23:52:38
+122,D002,D. Shetty,In Progress,2025-06-14 23:53:38
+418,D004,A. Kumar,In Progress,2025-06-14 23:53:38
+572,D003,C. Fernandes,Waiting,2025-06-14 23:53:38
+371,D003,F. Rao,In Progress,2025-06-14 23:53:38
+516,D003,D. Shetty,Called,2025-06-14 23:54:38
+266,D003,E. Nair,Waiting,2025-06-14 23:54:38
+359,D002,D. Shetty,In Progress,2025-06-14 23:55:38
+120,D001,D. Shetty,Waiting,2025-06-14 23:56:38
+878,D001,D. Shetty,Waiting,2025-06-14 23:57:38
+365,D001,A. Kumar,Waiting,2025-06-14 23:57:38
+174,D003,B. Reddy,Waiting,2025-06-14 23:57:38
+904,D004,C. Fernandes,Called,2025-06-14 23:58:38
+951,D002,D. Shetty,Called,2025-06-14 23:58:38
+222,D001,A. Kumar,Waiting,2025-06-14 23:58:38
+271,D002,E. Nair,Waiting,2025-06-14 23:58:38
+805,D002,B. Reddy,In Progress,2025-06-14 23:59:38
+216,D002,F. Rao,Called,2025-06-14 23:59:38
+216,D003,B. Reddy,Waiting,2025-06-14 23:59:38
+615,D004,E. Nair,Called,2025-06-14 23:59:38
+967,D003,D. Shetty,In Progress,2025-06-14 23:59:38
+518,D003,D. Shetty,Waiting,2025-06-15 00:00:38
+130,D003,B. Reddy,Called,2025-06-15 00:00:38
+507,D004,F. Rao,In Progress,2025-06-15 00:01:38
+251,D002,F. Rao,Called,2025-06-15 00:01:38
+657,D002,C. Fernandes,Called,2025-06-15 00:01:38
+369,D001,C. Fernandes,Waiting,2025-06-15 00:01:38
