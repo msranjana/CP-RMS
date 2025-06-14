@@ -68,4 +68,3 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE).
 ---
 
 *Developed by Ranjana, 2025.*
-````
