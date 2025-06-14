@@ -78,7 +78,6 @@
     <th>Department</th>
     <th>Patient</th>
     <th>Status</th>
-    <th>Time</th>
   </tr>
 </thead>
 
@@ -91,7 +90,7 @@
       <td>{{ token.status }}</td>
     </tr>
   {% else %}
-    <tr><td colspan="6">No tokens in queue.</td></tr>
+    <tr><td colspan="5">No tokens in queue.</td></tr>
   {% endfor %}
 </tbody>
 

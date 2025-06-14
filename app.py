@@ -171,15 +171,27 @@ def api_alerts():
     return jsonify(alerts), 200
 
 # --- DISPLAY SCREEN ---
-
 @app.route("/display")
 def display_screen():
     alerts = get_broadcasts()[:5]
     inventory = get_inventory()
     tokens = get_queue()
+
+    # Ensure timestamps are formatted as strings
+    for token in tokens:
+        issued_at = token.get("issued_at") or token.get("timestamp")
+        if isinstance(issued_at, datetime):
+            token["issued_at"] = issued_at.strftime("%Y-%m-%d %H:%M:%S")
+        elif isinstance(issued_at, str):
+            token["issued_at"] = issued_at
+        else:
+            token["issued_at"] = "N/A"
+    print("Tokens Data:", tokens)
+
     for alert in alerts:
         alert["_id"] = str(alert["_id"])
         alert["timestamp"] = alert["timestamp"].strftime("%Y-%m-%d %H:%M:%S")
+
     return render_template("display.html", alerts=alerts, inventory=inventory, tokens=tokens)
 
 # --- BACKGROUND LOW STOCK CHECK ---
@@ -219,11 +231,6 @@ def broadcast_alert():
     else:
         return jsonify({"status": "duplicate", "message": "Alert already exists"}), 409
 
-
-@app.route("/display")
-def display():
-    tokens = list(tokens_collection.find())
-    return render_template("display.html", tokens=tokens)
 
 
 @socketio.on("connect")
