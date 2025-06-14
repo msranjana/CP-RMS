@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Token Queue Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
+    h1, h3 { color: #333; }
+    .section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 8px #ccc; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #333; color: white; }
+  </style>
+</head>
+<body>
+<h2>Debug: {{ tokens | length }} tokens loaded.</h2>
+
+<!-- 🔢 TOKEN QUEUE -->
+<div class="section">
+  <h1>🎫 Token Queue</h1>
+  <label for="deptFilter">Filter by Department:</label>
+  <select id="deptFilter">
+    <option value="All">All</option>
+    <option value="Cardiology">Cardiology</option>
+    <option value="ENT">ENT</option>
+    <option value="Pediatrics">Pediatrics</option>
+  </select>
+
+  <table id="tokenTable">
+    <thead><tr><th>Token #</th><th>Department</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for token in tokens %}
+        <tr>
+          <td>{{ token.token_number }}</td>
+          <td>{{ token.department }}</td>
+          <td>{{ token.status }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="3">No tokens available.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- 📊 TOKEN INFLOW CHART -->
+<div class="section">
+  <h3>📊 Token Inflow per Department</h3>
+  <canvas id="tokenChart" height="150"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Token Chart
+  let tokenChart;
+  async function updateTokenChart() {
+    const res = await fetch('/api/token_stats');
+    const data = await res.json();
+    const labels = data.map(d => d.department);
+    const counts = data.map(d => d.count);
+
+    if (tokenChart) {
+      tokenChart.data.labels = labels;
+      tokenChart.data.datasets[0].data = counts;
+      tokenChart.update();
+    } else {
+      const ctx = document.getElementById('tokenChart').getContext('2d');
+      tokenChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Tokens',
+            data: counts,
+            backgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+  }
+
+  // Token Table Filter
+  async function updateTokenTable() {
+    const res = await fetch('/api/tokens');
+    const tokens = await res.json();
+    const dept = document.getElementById('deptFilter').value;
+    const tbody = document.querySelector('#tokenTable tbody');
+    tbody.innerHTML = '';
+
+    const filtered = dept === "All" ? tokens : tokens.filter(t => t.department === dept);
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="3">No tokens found</td></tr>';
+    } else {
+      filtered.forEach(t => {
+        tbody.innerHTML += `<tr>
+          <td>${t.token_number}</td>
+          <td>${t.department}</td>
+          <td>${t.status}</td>
+        </tr>`;
+      });
+    }
+  }
+
+  document.getElementById('deptFilter').addEventListener('change', updateTokenTable);
+  updateTokenChart();
+  updateTokenTable();
+  setInterval(() => {
+    updateTokenChart();
+    updateTokenTable();
+  }, 10000);
+</script>
+
+</body>
+</html>

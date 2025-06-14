@@ -1,0 +1,46 @@
+token_id,dept_id,patient_name,status,timestamp
+439,D003,A. Kumar,In Progress,2025-06-14 11:42:36
+747,D004,C. Fernandes,In Progress,2025-06-14 11:42:36
+360,D004,C. Fernandes,Called,2025-06-14 11:42:36
+860,D003,B. Reddy,In Progress,2025-06-14 11:42:36
+897,D003,A. Kumar,In Progress,2025-06-14 11:42:36
+507,D004,B. Reddy,Called,2025-06-14 11:43:36
+537,D004,F. Rao,In Progress,2025-06-14 11:43:36
+169,D004,C. Fernandes,In Progress,2025-06-14 11:43:36
+521,D004,D. Shetty,Called,2025-06-14 11:43:36
+442,D001,F. Rao,Called,2025-06-14 11:43:36
+886,D003,C. Fernandes,Waiting,2025-06-14 11:44:36
+505,D001,B. Reddy,Called,2025-06-14 11:44:36
+414,D002,B. Reddy,Called,2025-06-14 11:44:36
+838,D001,D. Shetty,Waiting,2025-06-14 11:45:36
+505,D001,C. Fernandes,In Progress,2025-06-14 11:45:36
+263,D003,D. Shetty,Called,2025-06-14 11:45:36
+593,D004,B. Reddy,In Progress,2025-06-14 11:45:36
+973,D004,B. Reddy,Waiting,2025-06-14 11:48:36
+988,D001,B. Reddy,Called,2025-06-14 11:48:36
+198,D004,F. Rao,Waiting,2025-06-14 11:48:36
+806,D002,C. Fernandes,In Progress,2025-06-14 11:48:36
+467,D003,B. Reddy,Waiting,2025-06-14 11:49:36
+966,D001,C. Fernandes,In Progress,2025-06-14 11:50:36
+535,D001,B. Reddy,Waiting,2025-06-14 11:52:36
+189,D002,C. Fernandes,Waiting,2025-06-14 11:52:36
+409,D003,B. Reddy,In Progress,2025-06-14 11:52:36
+581,D004,D. Shetty,In Progress,2025-06-14 11:52:36
+805,D002,E. Nair,In Progress,2025-06-14 11:53:36
+393,D003,C. Fernandes,Waiting,2025-06-14 11:54:36
+696,D001,A. Kumar,Waiting,2025-06-14 11:55:36
+158,D004,E. Nair,Waiting,2025-06-14 11:56:36
+622,D001,D. Shetty,Called,2025-06-14 11:57:36
+408,D004,C. Fernandes,Waiting,2025-06-14 11:57:36
+494,D003,C. Fernandes,Called,2025-06-14 11:57:36
+526,D001,E. Nair,Called,2025-06-14 11:57:36
+816,D002,E. Nair,Waiting,2025-06-14 11:57:36
+163,D003,D. Shetty,Waiting,2025-06-14 11:58:36
+676,D001,E. Nair,In Progress,2025-06-14 11:58:36
+471,D001,E. Nair,Called,2025-06-14 11:58:36
+277,D004,E. Nair,In Progress,2025-06-14 11:59:36
+666,D002,E. Nair,In Progress,2025-06-14 12:00:36
+826,D002,D. Shetty,In Progress,2025-06-14 12:00:36
+607,D003,F. Rao,Called,2025-06-14 12:00:36
+484,D002,E. Nair,Waiting,2025-06-14 12:00:36
+336,D004,E. Nair,In Progress,2025-06-14 12:00:36

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hospital Smart Display</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f4; }
+    h1 { color: #333; }
+    .section { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 0 8px #ccc; }
+    .alert { color: red; font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #333; color: white; }
+  </style>
+</head>
+<body>
+<button onclick="enableSound()" id="soundBtn">🔊 Enable Alerts</button>
+
+<div class="section" id="alertSection">
+    <h1>📢 Emergency Alerts</h1>
+    {% for alert in alerts %}
+      <p class="alert">[{{ alert.alert_type }}] - {{ alert.message }} ({{ alert.timestamp }})</p>
+    {% else %}
+      <p>No alerts.</p>
+    {% endfor %}
+  </div>
+
+  
+<div class="section" id="drugSection">
+  <h1>💊 Drug Inventory</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Drug ID</th>
+        <th>Name</th>
+        <th>Stock</th>
+        <th>Reorder Level</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for drug in inventory %}
+      <tr class="{% if drug.stock < drug.reorder_level %}low-stock{% endif %}">
+          <td>{{ drug.drug_id }}</td>
+          <td>{{ drug.name }}</td>
+          <td>{{ drug.stock }}</td>
+          <td>{{ drug.reorder_level }}</td>
+          <td>{{ drug.status }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5">No data</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div> 
+
+
+
+
+<div class="section" id="tokenSection">
+    
+
+    <h1>🎫 Token Queue</h1>
+     <!-- 🔽 Add filter dropdown here -->
+  <label for="departmentFilter"><strong>Filter by Department:</strong></label>
+  <select id="departmentFilter" onchange="filterTokens()">
+  <option value="All">All</option>
+  <option value="Cardiology">Cardiology</option>
+  <option value="Orthopedics">Orthopedics</option>
+  <option value="OT">OT</option>
+  <option value="General Medicine">General Medicine</option>
+
+  </select>
+    <table>
+      <thead>
+  <tr>
+    <th>Token #</th>
+    <th>Department</th>
+    <th>Patient</th>
+    <th>Status</th>
+    <th>Time</th>
+  </tr>
+</thead>
+
+      <tbody>
+  {% for token in tokens %}
+    <tr>
+      <td>{{ token.token_number }}</td>
+      <td>{{ token.department }}</td>
+      <td>{{ token.patient_name }}</td>
+      <td>{{ token.status }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="6">No tokens in queue.</td></tr>
+  {% endfor %}
+</tbody>
+
+    </table>
+    <h2>📈 Token Inflow Chart</h2>
+<canvas id="tokenChart" width="400" height="200"></canvas>
+
+  </div>
+<style>
+.low-stock {
+  background-color: #ffe5e5; /* light red background */
+  font-weight: bold;
+  color: #a00;
+}
+
+
+.flash-red {
+  animation: flash-bg 0.5s alternate 10;
+}
+
+@keyframes flash-bg {
+  from { background-color: red; }
+  to { background-color: transparent; }
+}
+
+.new-alert {
+  animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); background-color: yellow; }
+  100% { transform: scale(1); }
+}
+
+
+</style>
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const socket = io();
+  let soundEnabled = false;
+  const alertSound = new Audio('/static/code_red.mp3');
+  alertSound.preload = "auto";
+
+  // 🔓 Unlock audio autoplay once on user click
+  document.addEventListener("click", () => {
+    alertSound.play().then(() => {
+      alertSound.pause();
+      alertSound.currentTime = 0;
+      soundEnabled = true;
+      localStorage.setItem('soundEnabled', 'true');
+      const btn = document.getElementById('soundBtn');
+      if (btn) btn.style.display = 'none';
+      console.log("🔊 Sound unlocked & enabled");
+    }).catch(err => {
+      console.warn("Autoplay still blocked ❌", err);
+    });
+  }, { once: true });
+
+  // On load, enable sound if remembered
+  window.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem('soundEnabled') === 'true') {
+      soundEnabled = true;
+      console.log("🔁 Sound remembered from last session");
+    }
+  });
+
+
+
+  // Scroll alerts to bottom
+  function scrollToBottom() {
+    const alerts = document.getElementById("alerts");
+    if (alerts) alerts.scrollTop = alerts.scrollHeight;
+  }
+
+  // Alert type -> color
+  function getColor(type) {
+    switch (type.toLowerCase()) {
+      case 'code red': return 'red';
+      case 'warning': return 'orange';
+      case 'info': return 'blue';
+      default: return 'gray';
+    }
+  }
+
+  // Listen to new alerts via WebSocket
+  socket.on('connect', () => {
+    console.log("✅ Connected to server");
+  });
+
+  socket.on('new_alert', alert => {
+    const li = document.createElement('li');
+    li.textContent = `[${alert.alert_type.toUpperCase()}] ${alert.message} - ${new Date(alert.timestamp).toLocaleString()}`;
+    li.style.backgroundColor = getColor(alert.alert_type);
+    li.style.color = 'white';
+    li.style.padding = '10px';
+    li.style.margin = '5px 0';
+    li.classList.add('new-alert');
+
+    const alertList = document.getElementById("alerts");
+    if (alertList) {
+      alertList.appendChild(li);
+      scrollToBottom();
+
+      // Flash highlight
+      setTimeout(() => {
+        li.style.backgroundColor = '';
+        li.classList.remove('new-alert');
+      }, 3000);
+    }
+
+    // Sound & vibration for Code Red
+    if (alert.alert_type.toLowerCase() === 'code red' && soundEnabled) {
+      alertSound.pause();
+      alertSound.currentTime = 0;
+      alertSound.play().catch(e => console.warn("Play failed:", e));
+
+      if ('vibrate' in navigator) {
+        navigator.vibrate([200, 100, 200]);
+      }
+
+const alertSection = document.getElementById('alertSection');
+      if (alertSection) {
+        alertSection.classList.add('flash-red');
+        setTimeout(() => {
+          alertSection.classList.remove('flash-red');
+        }, 5000);
+      }
+    }
+  });
+
+  // Make enableSound globally accessible
+  function enableSound() {
+    alertSound.play().then(() => {
+      alertSound.pause();
+      alertSound.currentTime = 0;
+      soundEnabled = true;
+      localStorage.setItem('soundEnabled', 'true');
+      const btn = document.getElementById('soundBtn');
+      if (btn) btn.style.display = 'none';
+      console.log("🔊 Sound enabled");
+    }).catch(err => {
+      console.warn("Sound autoplay blocked ❌", err);
+    });
+  }
+  window.enableSound = enableSound; // <-- This is the key fix
+
+  // Polling updates fallback (alerts + tokens)
+  function fetchUpdates() {
+    fetch('/api/alerts')
+      .then(res => res.json())
+      .then(alerts => {
+        const alertSection = document.querySelector('.section:nth-child(1)');
+        let html = '<h1>📢 Emergency Alerts</h1><ul id="alerts" style="max-height:300px; overflow-y:auto;">';
+        if (!alerts || alerts.length === 0) {
+          html += '<p>No alerts.</p>';
+        } else {
+          alerts.forEach(alert => {
+            html += `<li style="background-color:${getColor(alert.alert_type)}; color:white; padding:10px; margin-bottom:5px">
+              [${alert.alert_type.toUpperCase()}] ${alert.message} - ${alert.timestamp}
+            </li>`;
+          });
+        }
+        html += '</ul>';
+        if (alertSection) {
+          alertSection.innerHTML = html;
+          scrollToBottom();
+        }
+      });
+
+fetch('/api/token_chart')
+  .then(res => res.json())
+  .then(chartData => {
+    updateChart(chartData);
+  });
+
+    fetch('/api/tokens')
+      .then(res => res.json())
+      .then(tokens => {
+       // const tokenSection = document.querySelector('.section:nth-child(3) tbody');
+       const tokenSection = document.querySelector('#tokenSection tbody');
+
+        if (tokenSection) {
+          if (!tokens || tokens.length === 0) {
+            tokenSection.innerHTML = '<tr><td colspan="3">No tokens in queue.</td></tr>';
+          } else {
+            tokenSection.innerHTML = tokens.map(t =>
+              `<tr><td>${t.token_number}</td><td>${t.department}</td><td>${t.status}</td></tr>`
+            ).join('');
+          }
+        }
+      });
+  }
+  function filterTokens() {
+  const selected = document.getElementById("departmentFilter").value;
+  const rows = document.querySelectorAll("#tokenSection tbody tr");
+  rows.forEach(row => {
+    const dept = row.children[1].textContent;
+    if (selected === "all" || dept === selected) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+}
+
+
+
+let tokenChart;
+function updateChart(data) {
+  const labels = data.map(item => item.time);
+  const counts = data.map(item => item.count);
+
+  if (tokenChart) {
+    tokenChart.data.labels = labels;
+    tokenChart.data.datasets[0].data = counts;
+    tokenChart.update();
+  } else {
+    const ctx = document.getElementById('tokenChart').getContext('2d');
+    tokenChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Token Inflow',
+          data: counts,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 2,
+          fill: true
+        }]
+      },
+      options: {
+        
+        responsive: true,
+        scales: {
+         y: {
+      ticks: {
+        callback: function(value) {
+          if (Number.isInteger(value)) {
+            return value;
+          }
+        },
+        stepSize: 1  // ✅ Optional: force step size of 1
+      },
+      beginAtZero: true
+    }
+        }
+      }
+    });
+  }
+}
+function fetchUpdates() {
+  fetch('/api/tokens')
+    .then(res => res.json())
+    .then(tokens => {
+      const tbody = document.querySelector('#tokenSection tbody');
+      tbody.innerHTML = tokens.map(t =>
+        `<tr>
+          <td>${t.token_number}</td>
+          <td>${t.department}</td>
+          <td>${t.patient_name}</td>
+          <td>${t.status}</td>
+        </tr>`
+      ).join('');
+    });
+
+  fetch('/api/token_chart')
+    .then(res => res.json())
+    .then(data => updateChart(data));
+}
+
+  setInterval(fetchUpdates, 10000); // every 10 sec
+  fetchUpdates(); // initial load
+</script>
+
+</body>
+</html>
