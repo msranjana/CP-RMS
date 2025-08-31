@@ -1,6 +1,10 @@
-# SwasthaSeve(CP-RMS)
+# SwasthaSeve - A Centralised Patient & Resource Management System
 
 A web-based system for hospitals to manage patient queues, drug inventory, and broadcast emergency alerts in real-time.
+
+
+<img width="1920" height="1440" alt="SWASTHASEVE" src="https://github.com/user-attachments/assets/309eb43c-ee75-4ed9-ba71-4a573fc4124a" />
+
 
 ## Features
 
